@@ -40,6 +40,14 @@ My goal is to provide some commonly used extensions, and speed up build times by
 
 Composer, of course!
 
+# What if I want to run X before CMD is executed starts?
+
+You have two options. If you need the script to be run everytime the container is started, then use `/var/www/entrypoint.d`. Otherwise, if it only needs to run on build, add it as a `RUN` command to your own Dockerfile.
+
+The `/var/www/entrypoint.d/` directory is your friend. Just create a bash file (`awesomeness.sh`) and either use `ADD awesomeness.sh /var/www/entrypoint.d` or just mount the file to that directory. Then each script will be executed in turn, and if one fails, the remaining will not execute and an error will be displayed.
+
+After the entrypoint scripts have finished the main command will be executed.
+
 ## Why do you use an `app` user instead of root?
 
 TL;DR; Security. 
