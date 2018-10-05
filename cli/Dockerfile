@@ -27,18 +27,8 @@ RUN docker-php-ext-configure \
   pgsql -with-pgsql=/usr/local/pgsql
 
 # Install required PHP extensions
-RUN docker-php-ext-install \
-  gd \
-  intl \
-  mbstring \
-  pdo_mysql \
-  pdo_pgsql \
-  xsl \
-  zip \
-  soap \
-  bcmath \
-  mcrypt \
-  pcntl
+ADD common/install-php-extensions.sh /usr/local/bin/install-php-extensions.sh
+RUN install-php-extensions.sh
 
 # Install Xdebug (but don't enable)
 RUN pecl install -o -f xdebug
