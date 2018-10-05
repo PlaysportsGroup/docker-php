@@ -4,6 +4,12 @@ The purpose of this is to provide a generic PHP base image that can be shared ac
 
 These images are designed to be used in production, as well as in a staging environment.
 
+Available tags:
+
+- 7.1-fpm
+- 7.1-cli
+- 7.2-fpm
+- 7.2-cli
 
 ## How to build these images locally:
 
@@ -19,7 +25,7 @@ You will need to reconfigure to use the `root` user, then switch back afterwards
     RUN apt-get update && apt-get install myawesomepackage -y
     USER app:app
 
-# What PHP extensions come out of the box?
+## What PHP extensions come out of the box?
 
 - xdebug (but it's disabled, you'll need to enable it manually!)
 - gd
@@ -36,11 +42,11 @@ You will need to reconfigure to use the `root` user, then switch back afterwards
 
 My goal is to provide some commonly used extensions, and speed up build times by not needing to recompile PHP multiple times.
 
-# What else is there?
+## What else is there?
 
 Composer, of course!
 
-# What if I want to run X before CMD is executed starts?
+## What if I want to run X before CMD is executed?
 
 You have two options. If you need the script to be run everytime the container is started, then use `/var/www/entrypoint.d`. Otherwise, if it only needs to run on build, add it as a `RUN` command to your own Dockerfile.
 
