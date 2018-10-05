@@ -19,13 +19,6 @@ services:
       args:
         VERSION: "7.2"
       dockerfile: cli/Dockerfile
-  php-latest-cli:
-    image: ashsmith/php:latest-cli
-    build:
-      context: .
-      args:
-        VERSION: "latest"
-      dockerfile: cli/Dockerfile
 
 
 ##################################
@@ -44,11 +37,4 @@ services:
       context: .
       args:
         - VERSION=7.2
-      dockerfile: fpm/Dockerfile
-  php-latest-fpm:
-    image: ashsmith/php:latest-fpm
-    build:
-      context: .
-      args:
-        VERSION: "latest"
       dockerfile: fpm/Dockerfile
