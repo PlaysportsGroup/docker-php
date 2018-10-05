@@ -28,6 +28,7 @@ RUN docker-php-ext-configure \
 
 # Install required PHP extensions
 ADD common/install-php-extensions.sh /usr/local/bin/install-php-extensions.sh
+RUN chmod +x /usr/local/bin/install-php-extensions.sh
 RUN install-php-extensions.sh
 
 # Install Xdebug (but don't enable)
