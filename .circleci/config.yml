@@ -1,0 +1,24 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - checkout:
+          path: ~/ashsmith-docker-php
+      - run:
+          name: Build and push Images
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker-compose build
+            docker-compose push
+
+workflows:
+  version: 2
+  btd:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master

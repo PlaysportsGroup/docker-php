@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+
+##################################
+# CLI Versions: latest, 7.1, 7.2 #
+##################################
+  php-71-cli:
+    image: ashsmith/php:7.1-cli
+    build:
+      context: .
+      args:
+        VERSION: "7.1"
+      dockerfile: cli/Dockerfile
+  php-72-cli:
+    image: ashsmith/php:7.2-cli
+    build:
+      context: .
+      args:
+        VERSION: "7.2"
+      dockerfile: cli/Dockerfile
+  php-latest-cli:
+    image: ashsmith/php:latest-cli
+    build:
+      context: .
+      args:
+        VERSION: "latest"
+      dockerfile: cli/Dockerfile
+
+
+##################################
+# FPM Versions: latest, 7.1, 7.2 #
+##################################
+  php-71-fpm:
+    image: ashsmith/php:7.1-fpm
+    build:
+      context: .
+      args:
+        VERSION: "7.1"
+      dockerfile: fpm/Dockerfile
+  php-72-fpm:
+    image: ashsmith/php:7.2-fpm
+    build:
+      context: .
+      args:
+        - VERSION=7.2
+      dockerfile: fpm/Dockerfile
+  php-latest-fpm:
+    image: ashsmith/php:latest-fpm
+    build:
+      context: .
+      args:
+        VERSION: "latest"
+      dockerfile: fpm/Dockerfile
