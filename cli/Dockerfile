@@ -1,5 +1,6 @@
 ARG VERSION=latest
 FROM php:${VERSION}-cli
+ARG PHP_EXTENSIONS
 
 # Install dependencies
 RUN apt-get update \
@@ -25,6 +26,8 @@ RUN docker-php-ext-configure \
 # Configure postgresql
 RUN docker-php-ext-configure \
   pgsql -with-pgsql=/usr/local/pgsql
+
+RUN php -i | grep -e "Loaded Configuration File" -e "Scan this dir for additional .ini files" -e "Additional .ini files parsed"
 
 # Install required PHP extensions
 RUN docker-php-ext-install $PHP_EXTENSIONS
