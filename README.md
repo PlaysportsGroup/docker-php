@@ -1,5 +1,7 @@
 # ashsmith/php
 
+[![CircleCI](https://circleci.com/gh/ashsmith/docker-php/tree/master.svg?style=svg)](https://circleci.com/gh/ashsmith/docker-php/tree/master)
+
 The purpose of this is to provide a generic PHP base image that can be shared across projects. It won't matter if you're running Magento, Laravel, Wordpress, or Craft CMS, etc. You'll have a consistent base image that provides a number of tools built in, and sensible php extensions.
 
 These images are designed to be used in production, as well as in a staging environment.
