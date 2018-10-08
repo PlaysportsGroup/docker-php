@@ -17,7 +17,8 @@ RUN apt-get update \
     libpng-dev \
     libxslt1-dev \
     libpq-dev \
-    ssmtp
+    ssmtp \
+    procps
 
 # Configure the gd library
 RUN docker-php-ext-configure \
