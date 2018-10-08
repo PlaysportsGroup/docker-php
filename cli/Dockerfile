@@ -27,8 +27,6 @@ RUN docker-php-ext-configure \
 RUN docker-php-ext-configure \
   pgsql -with-pgsql=/usr/local/pgsql
 
-RUN php -i | grep -e "Loaded Configuration File" -e "Scan this dir for additional .ini files" -e "Additional .ini files parsed"
-
 # Install required PHP extensions
 RUN docker-php-ext-install $PHP_EXTENSIONS
 
@@ -44,6 +42,8 @@ RUN mkdir -p /var/www/html /var/www/bin
 RUN ["chown", "-R", "app:app", "/var/www", "/var/www/html", "/var/www/bin"]
 
 USER app:app
+
+WORKDIR /var/www/html
 
 # You can add scripts into here that will be owned by app and available in your PATH.
 ENV PATH /var/www/bin:$PATH

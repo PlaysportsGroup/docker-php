@@ -48,6 +48,8 @@ ADD fpm/config/php-fpm.conf /usr/local/etc/
 
 USER app:app
 
+WORKDIR /var/www/html
+
 # You can add scripts into here that will be owned by app and available in your PATH.
 ENV PATH /var/www/bin:$PATH
 
