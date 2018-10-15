@@ -1,0 +1,3 @@
+; Use this file to blacklist files from opcache. Use the full path:
+; /var/www/html/app/etc/env.php
+; /var/www/html/app/etc/config.php
