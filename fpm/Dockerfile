@@ -46,8 +46,8 @@ RUN ["chown", "-R", "app:app", "/var/www", "/var/www/html", "/var/www/bin"]
 # A few sensible defaults.
 ADD fpm/config/www.conf /usr/local/etc/php-fpm.d/
 ADD fpm/config/php-fpm.conf /usr/local/etc/
-ADD fpm/config/opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
-ADD fpm/config/opcache.blacklist /usr/local/etc/php/conf.d/zz-opcache.blacklist
+ADD fpm/config/opcache.ini /usr/local/etc/php/conf.d/aa-opcache.ini
+ADD fpm/config/opcache.blacklist /usr/local/etc/php/conf.d/opcache.blacklist
 USER app:app
 
 WORKDIR /var/www/html

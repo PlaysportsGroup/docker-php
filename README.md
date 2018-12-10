@@ -50,7 +50,7 @@ Composer, of course!
 
 ## Why do you use an `app` user instead of root?
 
-TL;DR; Security. 
+TL;DR; Security.
 
 Read up on it here: [Processes in containers should not run as root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b)
 
@@ -67,12 +67,12 @@ Or if you like to use docker-compose:
         image: ashsmith/php:7.2-cli
         volumes:
           - ./src:/var/www/html:delegated
-      
+
       phpfpm:
         image: ashsmith/php:7.2-fpm
         volumes:
           - ./src:/var/www/html:delegated
-      
+
       nginx:
         image: ashsmith/nginx:latest-phpfpm
         environment:
@@ -91,6 +91,12 @@ Then:
 Want to run one of commands?
 
     docker-compose run --rm cli composer install
+
+# OpCache
+
+opcache is enabled by default!
+
+For local development I recommend mounting a new php .ini file to disable opcache.
 
 
 ## Credit
