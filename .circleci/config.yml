@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_cli:
     machine: true
     working_directory: ~/ashsmith-docker-php/
     steps:
@@ -10,14 +10,31 @@ jobs:
           name: Build and push Images
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker-compose build
-            docker-compose push
+            docker-compose build php-71-cli php-72-cli
+            docker-compose push php-71-cli php-72-cli
+  build_fpm:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - checkout:
+          path: ~/ashsmith-docker-php
+      - run:
+          name: Build and push Images
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker-compose build php-71-fpm php-72-fpm
+            docker-compose push php-71-fpm php-72-fpm
 
 workflows:
   version: 2
   btd:
     jobs:
-      - build:
+      - build_cli:
+          filters:
+            branches:
+              only:
+                - master
+      - build_fpm:
           filters:
             branches:
               only:
