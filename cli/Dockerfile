@@ -7,6 +7,7 @@ RUN apt-get update \
   && apt-get install -y \
     vim \
     git \
+    git-crypt \
     zip \
     mysql-client \
     wget \
