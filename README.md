@@ -8,10 +8,16 @@ These images are designed to be used in production, as well as in a staging envi
 
 Available tags:
 
-- 7.1-fpm
-- 7.1-cli
-- 7.2-fpm
-- 7.2-cli
+- ashsmith/php:7.1-fpm-alpine
+- ashsmith/php:7.1-cli-alpine
+- ashsmith/php:7.2-fpm-alpine
+- ashsmith/php:7.2-cli-alpine
+
+Deprecated tags (only alpine is being actively developed):
+- ashsmith/php:7.1-fpm 
+- ashsmith/php:7.1-cli
+- ashsmith/php:7.2-fpm
+- ashsmith/php:7.2-cli
 
 ## How to build these images locally:
 
@@ -21,10 +27,10 @@ Available tags:
 
 You will need to reconfigure to use the `root` user, then switch back afterwards to the `app` user.
 
-    FROM ashsmith/php:7.2-fpm
+    FROM ashsmith/php:7.2-fpm-alpine
 
     USER root
-    RUN apt-get update && apt-get install myawesomepackage -y
+    RUN apk add myawesomepackage
     USER app:app
 
 ## What PHP extensions come out of the box?
@@ -56,7 +62,7 @@ Read up on it here: [Processes in containers should not run as root](https://med
 
 ## So how can I use this!?
 
-    docker run ashsmith/php:7.2-fpm -v $(pwd):/var/www/html -p 9000:9000 --name myawesomephpapp
+    docker run ashsmith/php:7.2-fpm-alpine-v $(pwd):/var/www/html -p 9000:9000 --name myawesomephpapp
 
 Or if you like to use docker-compose:
 
@@ -64,12 +70,12 @@ Or if you like to use docker-compose:
 
     services:
       cli:
-        image: ashsmith/php:7.2-cli
+        image: ashsmith/php:7.2-cli-alpine
         volumes:
           - ./src:/var/www/html:delegated
 
       phpfpm:
-        image: ashsmith/php:7.2-fpm
+        image: ashsmith/php:7.2-fpm-alpine
         volumes:
           - ./src:/var/www/html:delegated
 
@@ -96,7 +102,7 @@ Want to run one of commands?
 
 opcache is enabled by default!
 
-For local development I recommend mounting a new php .ini file to disable opcache.
+For local development I recommend mounting a new php .ini file to explicitly disable opcache.
 
 
 ## Credit
