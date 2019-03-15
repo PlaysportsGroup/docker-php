@@ -12,33 +12,56 @@ commands:
       - run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           export VARIANT=<< parameters.variant >>
-          docker-compose build php-$VARIANT-fpm php-$VARIANT-cli php-$VARIANT-fpm-xdebug php-$VARIANT-cli-xdebug
-          docker-compose push php-$VARIANT-fpm php-$VARIANT-cli php-$VARIANT-fpm-xdebug php-$VARIANT-cli-xdebug
+          docker-compose build php-$VARIANT php-$VARIANT-xdebug
+          docker-compose push php-$VARIANT php-$VARIANT-xdebug
 
 jobs:
-  build_71:
+  build_71_fpm:
     machine: true
     working_directory: ~/ashsmith-docker-php/
     steps:
       - build_and_push:
-          variant: '71'
-  build_72:
+          variant: '71-fpm'
+  build_71_cli:
     machine: true
     working_directory: ~/ashsmith-docker-php/
     steps:
       - build_and_push:
-          variant: '72'
-  build_73:
+          variant: '71-cli'
+
+  build_72_fpm:
     machine: true
     working_directory: ~/ashsmith-docker-php/
     steps:
       - build_and_push:
-          variant: '73'
+          variant: '72-fpm'
+  build_72_cli:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - build_and_push:
+          variant: '72-cli'
+
+  build_73_fpm:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - build_and_push:
+          variant: '73-fpm'
+  build_73_cli:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - build_and_push:
+          variant: '73-cli'
 
 workflows:
   version: 2
   btd:
     jobs:
-      - build_71
-      - build_72
-      - build_73
+      - build_71_fpm
+      - build_71_cli
+      - build_72_fpm
+      - build_72_cli
+      - build_73_fpm
+      - build_73_cli

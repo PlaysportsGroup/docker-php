@@ -5,12 +5,15 @@ ARG XDEBUG
 
 # Install dependencies
 RUN apk add --no-cache \
-    vim git zip wget \
+    vim git openssh zip wget ca-certificates \
     mysql-client \
     freetype-dev libjpeg-turbo-dev \
     libpng-dev icu-dev  libpng-dev \
     libmcrypt-dev libxslt-dev libzip-dev \
     ssmtp  procps && \
+  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-git-crypt/master/sgerrand.rsa.pub && \
+  wget https://github.com/sgerrand/alpine-pkg-git-crypt/releases/download/0.6.0-r1/git-crypt-0.6.0-r1.apk && \
+  apk add git-crypt-0.6.0-r1.apk && \
   docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
   docker-php-ext-install $PHP_EXTENSIONS && \
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
