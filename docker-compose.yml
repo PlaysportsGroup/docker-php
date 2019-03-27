@@ -1,44 +1,118 @@
-version: "3"
+version: "2.1"
 
 services:
 
 ##################################
-# CLI Versions: latest, 7.1, 7.2 #
+# CLI Versions: 7.1, 7.2, 7.3 #
 ##################################
   php-71-cli:
-    image: ashsmith/php:7.1-cli
+    image: ashsmith/php:7.1-cli-alpine${BRANCH}
     build:
       context: .
       args:
         VERSION: "7.1"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql pdo_pgsql xsl zip soap bcmath pcntl mcrypt"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath pcntl mcrypt"
+        FLAVOUR: alpine
       dockerfile: cli/Dockerfile
+
+  php-71-cli-xdebug:
+    extends:
+      service: php-71-cli
+    image: ashsmith/php:7.1-cli-xdebug-alpine${BRANCH}
+    build:
+      args:
+        XDEBUG: 1
+
   php-72-cli:
-    image: ashsmith/php:7.2-cli
+    image: ashsmith/php:7.2-cli-alpine${BRANCH}
     build:
       context: .
       args:
         VERSION: "7.2"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql pdo_pgsql xsl zip soap bcmath"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath"
+        FLAVOUR: alpine
       dockerfile: cli/Dockerfile
 
+  php-72-cli-xdebug:
+    extends:
+      service: php-72-cli
+    image: ashsmith/php:7.2-cli-xdebug-alpine${BRANCH}
+    build:
+      args:
+        XDEBUG: 1
+
+  php-73-cli:
+    image: ashsmith/php:7.3-cli-alpine${BRANCH}
+    build:
+      context: .
+      args:
+        VERSION: "7.3"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath"
+        FLAVOUR: alpine
+      dockerfile: cli/Dockerfile
+
+  php-73-cli-xdebug:
+    extends:
+      service: php-73-cli
+    image: ashsmith/php:7.3-cli-xdebug-alpine${BRANCH}
+    build:
+      args:
+        XDEBUG: 1
 
 ##################################
-# FPM Versions: latest, 7.1, 7.2 #
+# FPM Versions: 7.1, 7.2, 7.3 #
 ##################################
   php-71-fpm:
-    image: ashsmith/php:7.1-fpm
+    image: ashsmith/php:7.1-fpm-alpine${BRANCH}
     build:
       context: .
       args:
         VERSION: "7.1"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql pdo_pgsql xsl zip soap bcmath pcntl mcrypt opcache"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath pcntl mcrypt opcache"
+        FLAVOUR: alpine
       dockerfile: fpm/Dockerfile
+
+  php-71-fpm-xdebug:
+    extends:
+      service: php-71-fpm
+    image: ashsmith/php:7.1-fpm-xdebug-alpine${BRANCH}
+    build:
+      args:
+        XDEBUG: 1
+
   php-72-fpm:
-    image: ashsmith/php:7.2-fpm
+    image: ashsmith/php:7.2-fpm-alpine${BRANCH}
     build:
       context: .
       args:
         VERSION: "7.2"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql pdo_pgsql xsl zip soap bcmath opcache"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache"
+        FLAVOUR: alpine
       dockerfile: fpm/Dockerfile
+
+  php-72-fpm-xdebug:
+    extends:
+      service: php-72-fpm
+    image: ashsmith/php:7.2-fpm-xdebug-alpine${BRANCH}
+    build:
+      args:
+        XDEBUG: 1
+
+  php-73-fpm:
+    image: ashsmith/php:7.3-fpm-alpine${BRANCH}
+    build:
+      context: .
+      args:
+        VERSION: "7.3"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache"
+        FLAVOUR: alpine
+      dockerfile: fpm/Dockerfile
+    image: ashsmith/php:7.3-fpm-xdebug-alpine${BRANCH}
+
+  php-73-fpm-xdebug:
+    extends:
+      service: php-73-fpm
+    image: ashsmith/php:7.3-fpm-xdebug-alpine${BRANCH}
+    build:
+      args:
+        XDEBUG: 1

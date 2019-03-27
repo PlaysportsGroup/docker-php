@@ -1,41 +1,71 @@
-version: 2
+version: 2.1
+
+commands:
+  build_and_push:
+    description: "Build & Push docker-compose images"
+    parameters:
+      variant:
+        type: string
+    steps:
+      - checkout:
+          path: ~/ashsmith-docker-php
+      - run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          export BRANCH=''
+          if [ "$CIRCLE_BRANCH" != "master" ]; then
+            export BRANCH="-${CIRCLE_BRANCH}"
+          fi;
+          echo "BRANCH=${BRANCH}" > .env
+          docker-compose build php-<< parameters.variant >> php-<< parameters.variant >>-xdebug
+          docker-compose push php-<< parameters.variant >> php-<< parameters.variant >>-xdebug
+
 jobs:
-  build_cli:
+  build_71_fpm:
     machine: true
     working_directory: ~/ashsmith-docker-php/
     steps:
-      - checkout:
-          path: ~/ashsmith-docker-php
-      - run:
-          name: Build and push Images
-          command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker-compose build php-71-cli php-72-cli
-            docker-compose push php-71-cli php-72-cli
-  build_fpm:
+      - build_and_push:
+          variant: '71-fpm'
+  build_71_cli:
     machine: true
     working_directory: ~/ashsmith-docker-php/
     steps:
-      - checkout:
-          path: ~/ashsmith-docker-php
-      - run:
-          name: Build and push Images
-          command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker-compose build php-71-fpm php-72-fpm
-            docker-compose push php-71-fpm php-72-fpm
+      - build_and_push:
+          variant: '71-cli'
+
+  build_72_fpm:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - build_and_push:
+          variant: '72-fpm'
+  build_72_cli:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - build_and_push:
+          variant: '72-cli'
+
+  build_73_fpm:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - build_and_push:
+          variant: '73-fpm'
+  build_73_cli:
+    machine: true
+    working_directory: ~/ashsmith-docker-php/
+    steps:
+      - build_and_push:
+          variant: '73-cli'
 
 workflows:
   version: 2
   btd:
     jobs:
-      - build_cli:
-          filters:
-            branches:
-              only:
-                - master
-      - build_fpm:
-          filters:
-            branches:
-              only:
-                - master
+      - build_71_fpm
+      - build_71_cli
+      - build_72_fpm
+      - build_72_cli
+      - build_73_fpm
+      - build_73_cli
