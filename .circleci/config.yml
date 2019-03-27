@@ -11,9 +11,13 @@ commands:
           path: ~/ashsmith-docker-php
       - run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          export VARIANT=<< parameters.variant >>
-          docker-compose build php-$VARIANT php-$VARIANT-xdebug
-          docker-compose push php-$VARIANT php-$VARIANT-xdebug
+          export BRANCH=''
+          if [ "$CIRCLE_BRANCH" != "master" ]; then
+            export BRANCH="-${CIRCLE_BRANCH}"
+          fi;
+          echo "BRANCH=${BRANCH}" > .env
+          docker-compose build php-<< parameters.variant >> php-<< parameters.variant >>-xdebug
+          docker-compose push php-<< parameters.variant >> php-<< parameters.variant >>-xdebug
 
 jobs:
   build_71_fpm:
