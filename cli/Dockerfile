@@ -3,6 +3,11 @@ FROM php:${VERSION}-cli-alpine
 ARG PHP_EXTENSIONS
 ARG XDEBUG
 
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
+    PHP_OPCACHE_MAX_ACCELERATED_FILES="16000" \
+    PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
+    PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10"
+
 # Install dependencies
 RUN apk add --no-cache \
     vim git openssh zip wget ca-certificates \
@@ -17,6 +22,8 @@ RUN apk add --no-cache \
   docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
   docker-php-ext-install $PHP_EXTENSIONS && \
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY fpm/config/opcache.ini /usr/local/etc/php/conf.d/aa-opcache.ini
 
 RUN if [ "$XDEBUG" = "1" ]; then apk add --no-cache $PHPIZE_DEPS && pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi
 

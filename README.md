@@ -14,7 +14,7 @@ Available tags:
 - ashsmith/php:7.2-cli-alpine
 
 Deprecated tags (only alpine is being actively developed):
-- ashsmith/php:7.1-fpm 
+- ashsmith/php:7.1-fpm
 - ashsmith/php:7.1-cli
 - ashsmith/php:7.2-fpm
 - ashsmith/php:7.2-cli
@@ -102,7 +102,9 @@ Want to run one of commands?
 
 opcache is enabled by default!
 
-For local development I recommend mounting a new php .ini file to explicitly disable opcache.
+For local development I recommend setting the `$PHP_OPCACHE_VALIDATE_TIMESTAMPS` environment variable to a value of `1`. For production, leave it as `0`.
+
+    docker run -e PHP_OPCACHE_VALIDATE_TIMESTAMPS=1 ashsmith/php:7.2-fpm sh
 
 
 ## Credit
