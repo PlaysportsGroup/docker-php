@@ -13,12 +13,6 @@ Available tags:
 - playsportsgroup/php:7.2-fpm-alpine
 - playsportsgroup/php:7.2-cli-alpine
 
-Deprecated tags (only alpine is being actively developed):
-- playsportsgroup/php:7.1-fpm
-- playsportsgroup/php:7.1-cli
-- playsportsgroup/php:7.2-fpm
-- playsportsgroup/php:7.2-cli
-
 ## How to build these images locally:
 
     docker-compose build
