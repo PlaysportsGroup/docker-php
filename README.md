@@ -1,6 +1,6 @@
-# ashsmith/php
+# playsportsgroup/php
 
-[![CircleCI](https://circleci.com/gh/ashsmith/docker-php/tree/master.svg?style=svg)](https://circleci.com/gh/ashsmith/docker-php/tree/master)
+[![CircleCI](https://circleci.com/gh/playsportsgroup/docker-php/tree/master.svg?style=svg)](https://circleci.com/gh/playsportsgroup/docker-php/tree/master)
 
 The purpose of this is to provide a generic PHP base image that can be shared across projects. It won't matter if you're running Magento, Laravel, Wordpress, or Craft CMS, etc. You'll have a consistent base image that provides a number of tools built in, and sensible php extensions.
 
@@ -8,16 +8,16 @@ These images are designed to be used in production, as well as in a staging envi
 
 Available tags:
 
-- ashsmith/php:7.1-fpm-alpine
-- ashsmith/php:7.1-cli-alpine
-- ashsmith/php:7.2-fpm-alpine
-- ashsmith/php:7.2-cli-alpine
+- playsportsgroup/php:7.1-fpm-alpine
+- playsportsgroup/php:7.1-cli-alpine
+- playsportsgroup/php:7.2-fpm-alpine
+- playsportsgroup/php:7.2-cli-alpine
 
 Deprecated tags (only alpine is being actively developed):
-- ashsmith/php:7.1-fpm
-- ashsmith/php:7.1-cli
-- ashsmith/php:7.2-fpm
-- ashsmith/php:7.2-cli
+- playsportsgroup/php:7.1-fpm
+- playsportsgroup/php:7.1-cli
+- playsportsgroup/php:7.2-fpm
+- playsportsgroup/php:7.2-cli
 
 ## How to build these images locally:
 
@@ -27,7 +27,7 @@ Deprecated tags (only alpine is being actively developed):
 
 You will need to reconfigure to use the `root` user, then switch back afterwards to the `app` user.
 
-    FROM ashsmith/php:7.2-fpm-alpine
+    FROM playsportsgroup/php:7.2-fpm-alpine
 
     USER root
     RUN apk add myawesomepackage
@@ -62,7 +62,7 @@ Read up on it here: [Processes in containers should not run as root](https://med
 
 ## So how can I use this!?
 
-    docker run ashsmith/php:7.2-fpm-alpine-v $(pwd):/var/www/html -p 9000:9000 --name myawesomephpapp
+    docker run playsportsgroup/php:7.2-fpm-alpine-v $(pwd):/var/www/html -p 9000:9000 --name myawesomephpapp
 
 Or if you like to use docker-compose:
 
@@ -70,17 +70,17 @@ Or if you like to use docker-compose:
 
     services:
       cli:
-        image: ashsmith/php:7.2-cli-alpine
+        image: playsportsgroup/php:7.2-cli-alpine
         volumes:
           - ./src:/var/www/html:delegated
 
       phpfpm:
-        image: ashsmith/php:7.2-fpm-alpine
+        image: playsportsgroup/php:7.2-fpm-alpine
         volumes:
           - ./src:/var/www/html:delegated
 
       nginx:
-        image: ashsmith/nginx:latest-phpfpm
+        image: playsportsgroup/nginx:latest-phpfpm
         environment:
           - FPM_HOST=phpfpm
         links:
@@ -104,7 +104,7 @@ opcache is enabled by default!
 
 For local development I recommend setting the `$PHP_OPCACHE_VALIDATE_TIMESTAMPS` environment variable to a value of `1`. For production, leave it as `0`.
 
-    docker run -e PHP_OPCACHE_VALIDATE_TIMESTAMPS=1 ashsmith/php:7.2-fpm sh
+    docker run -e PHP_OPCACHE_VALIDATE_TIMESTAMPS=1 playsportsgroup/php:7.2-fpm sh
 
 
 ## Credit

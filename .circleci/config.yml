@@ -8,7 +8,7 @@ commands:
         type: string
     steps:
       - checkout:
-          path: ~/ashsmith-docker-php
+          path: ~/psg-docker-php
       - run: |
           echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
           export BRANCH=''
@@ -22,39 +22,39 @@ commands:
 jobs:
   build_71_fpm:
     machine: true
-    working_directory: ~/ashsmith-docker-php/
+    working_directory: ~/psg-docker-php/
     steps:
       - build_and_push:
           variant: '71-fpm'
   build_71_cli:
     machine: true
-    working_directory: ~/ashsmith-docker-php/
+    working_directory: ~/psg-docker-php/
     steps:
       - build_and_push:
           variant: '71-cli'
 
   build_72_fpm:
     machine: true
-    working_directory: ~/ashsmith-docker-php/
+    working_directory: ~/psg-docker-php/
     steps:
       - build_and_push:
           variant: '72-fpm'
   build_72_cli:
     machine: true
-    working_directory: ~/ashsmith-docker-php/
+    working_directory: ~/psg-docker-php/
     steps:
       - build_and_push:
           variant: '72-cli'
 
   build_73_fpm:
     machine: true
-    working_directory: ~/ashsmith-docker-php/
+    working_directory: ~/psg-docker-php/
     steps:
       - build_and_push:
           variant: '73-fpm'
   build_73_cli:
     machine: true
-    working_directory: ~/ashsmith-docker-php/
+    working_directory: ~/psg-docker-php/
     steps:
       - build_and_push:
           variant: '73-cli'
