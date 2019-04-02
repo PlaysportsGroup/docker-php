@@ -6,7 +6,7 @@ services:
 # CLI Versions: 7.1, 7.2, 7.3 #
 ##################################
   php-71-cli:
-    image: ashsmith/php:7.1-cli-alpine${BRANCH}
+    image: playsportsgroup/php:7.1-cli-alpine${BRANCH}
     build:
       context: .
       args:
@@ -18,13 +18,13 @@ services:
   php-71-cli-xdebug:
     extends:
       service: php-71-cli
-    image: ashsmith/php:7.1-cli-xdebug-alpine${BRANCH}
+    image: playsportsgroup/php:7.1-cli-xdebug-alpine${BRANCH}
     build:
       args:
         XDEBUG: 1
 
   php-72-cli:
-    image: ashsmith/php:7.2-cli-alpine${BRANCH}
+    image: playsportsgroup/php:7.2-cli-alpine${BRANCH}
     build:
       context: .
       args:
@@ -36,7 +36,7 @@ services:
   php-72-cli-xdebug:
     extends:
       service: php-72-cli
-    image: ashsmith/php:7.2-cli-xdebug-alpine${BRANCH}
+    image: playsportsgroup/php:7.2-cli-xdebug-alpine${BRANCH}
     build:
       args:
         XDEBUG: 1
@@ -81,7 +81,7 @@ services:
         XDEBUG: 1
 
   php-72-fpm:
-    image: ashsmith/php:7.2-fpm-alpine${BRANCH}
+    image: playsportsgroup/php:7.2-fpm-alpine${BRANCH}
     build:
       context: .
       args:
@@ -93,13 +93,13 @@ services:
   php-72-fpm-xdebug:
     extends:
       service: php-72-fpm
-    image: ashsmith/php:7.2-fpm-xdebug-alpine${BRANCH}
+    image: playsportsgroup/php:7.2-fpm-xdebug-alpine${BRANCH}
     build:
       args:
         XDEBUG: 1
 
   php-73-fpm:
-    image: ashsmith/php:7.3-fpm-alpine${BRANCH}
+    image: playsportsgroup/php:7.3-fpm-alpine${BRANCH}
     build:
       context: .
       args:
@@ -107,12 +107,12 @@ services:
         PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache"
         FLAVOUR: alpine
       dockerfile: fpm/Dockerfile
-    image: ashsmith/php:7.3-fpm-xdebug-alpine${BRANCH}
+    image: playsportsgroup/php:7.3-fpm-xdebug-alpine${BRANCH}
 
   php-73-fpm-xdebug:
     extends:
       service: php-73-fpm
-    image: ashsmith/php:7.3-fpm-xdebug-alpine${BRANCH}
+    image: playsportsgroup/php:7.3-fpm-xdebug-alpine${BRANCH}
     build:
       args:
         XDEBUG: 1
