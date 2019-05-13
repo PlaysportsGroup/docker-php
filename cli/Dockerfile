@@ -15,17 +15,18 @@ RUN apk add --no-cache \
     freetype-dev libjpeg-turbo-dev \
     libpng-dev icu-dev  libpng-dev \
     libmcrypt-dev libxslt-dev libzip-dev \
-    ssmtp  procps && \
+    ssmtp procps $PHPIZE_DEPS && \
   wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-git-crypt/master/sgerrand.rsa.pub && \
   wget https://github.com/sgerrand/alpine-pkg-git-crypt/releases/download/0.6.0-r1/git-crypt-0.6.0-r1.apk && \
   apk add git-crypt-0.6.0-r1.apk && \
   docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
   docker-php-ext-install $PHP_EXTENSIONS && \
+  pecl install apcu && docker-php-ext-enable apcu && \
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY fpm/config/opcache.ini /usr/local/etc/php/conf.d/aa-opcache.ini
 
-RUN if [ "$XDEBUG" = "1" ]; then apk add --no-cache $PHPIZE_DEPS && pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi
+RUN if [ "$XDEBUG" = "1" ]; then pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi
 
 # Install dockerize
 RUN DOCKERIZE_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/dockerize-latest.tar.gz" \
