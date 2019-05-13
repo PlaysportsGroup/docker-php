@@ -47,6 +47,7 @@ You will need to reconfigure to use the `root` user, then switch back afterwards
 - bcmath
 - mcrypt
 - pcntl
+- apcu
 
 My goal is to provide some commonly used extensions, and speed up build times by not needing to recompile PHP multiple times.
 

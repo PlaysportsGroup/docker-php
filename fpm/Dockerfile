@@ -14,12 +14,13 @@ RUN apk add --no-cache \
     freetype-dev libjpeg-turbo-dev \
     libpng-dev icu-dev  libpng-dev \
     libmcrypt-dev libxslt-dev libzip-dev \
-    ssmtp procps && \
+    ssmtp procps $PHPIZE_DEPS && \
   docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ && \
   docker-php-ext-install -j$(nproc) $PHP_EXTENSIONS && \
+  pecl install apcu && docker-php-ext-enable apcu && \
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN if [ "$XDEBUG" = "1" ]; then apk add --no-cache $PHPIZE_DEPS && pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi
+RUN if [ "$XDEBUG" = "1" ]; then pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi
 
 RUN adduser -D -g 1000 -u 1000 -h /var/www -s /bin/bash app && \
   mkdir -p /var/www/html /var/www/bin && \
