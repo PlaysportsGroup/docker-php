@@ -14,10 +14,10 @@ RUN apk add --no-cache \
     freetype-dev libjpeg-turbo-dev \
     libpng-dev icu-dev  libpng-dev \
     libmcrypt-dev libxslt-dev libzip-dev \
-    ssmtp procps $PHPIZE_DEPS && \
+    ssmtp procps imagemagick imagemagick-libs imagemagick-dev $PHPIZE_DEPS && \
   docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ && \
   docker-php-ext-install -j$(nproc) $PHP_EXTENSIONS && \
-  pecl install apcu && docker-php-ext-enable apcu && \
+  pecl install apcu imagick && docker-php-ext-enable apcu imagick && \
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN if [ "$XDEBUG" = "1" ]; then pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi
