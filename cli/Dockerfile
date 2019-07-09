@@ -11,17 +11,17 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
 # Install dependencies
 RUN apk add --no-cache \
     vim git openssh zip wget ca-certificates \
-    mysql-client \
+    mysql-client bash \
     freetype-dev libjpeg-turbo-dev \
     libpng-dev icu-dev  libpng-dev \
     libmcrypt-dev libxslt-dev libzip-dev \
-    ssmtp procps $PHPIZE_DEPS && \
+    ssmtp procps imagemagick imagemagick-libs imagemagick-dev $PHPIZE_DEPS && \
   wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-git-crypt/master/sgerrand.rsa.pub && \
   wget https://github.com/sgerrand/alpine-pkg-git-crypt/releases/download/0.6.0-r1/git-crypt-0.6.0-r1.apk && \
   apk add git-crypt-0.6.0-r1.apk && \
   docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
   docker-php-ext-install $PHP_EXTENSIONS && \
-  pecl install apcu && docker-php-ext-enable apcu && \
+  pecl install apcu imagick && docker-php-ext-enable apcu imagick && \
   curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY fpm/config/opcache.ini /usr/local/etc/php/conf.d/aa-opcache.ini
