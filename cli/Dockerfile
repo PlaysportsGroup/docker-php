@@ -35,10 +35,7 @@ RUN DOCKERIZE_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cac
   && rm -rf /tmp/dockerize-linux-amd64.tar.gz \
   && dockerize --version
 
-RUN adduser -D -g 1000 -u 1000 -h /var/www -s /bin/bash app && \
-  mkdir -p /var/www/html /var/www/bin && \
-  chown -R app:app /var/www /var/www/html /var/www/bin
+RUN mkdir -p /var/www/html /var/www/bin
 
-USER app:app
 WORKDIR /var/www/html
 ENV PATH /var/www/bin:$PATH

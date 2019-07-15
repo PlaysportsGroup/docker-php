@@ -22,19 +22,15 @@ RUN apk add --no-cache \
 
 RUN if [ "$XDEBUG" = "1" ]; then pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi
 
-RUN adduser -D -g 1000 -u 1000 -h /var/www -s /bin/bash app && \
-  mkdir -p /var/www/html /var/www/bin && \
-  chown -R app:app /var/www /var/www/html /var/www/bin
+RUN mkdir -p /var/www/html /var/www/bin
 
 # A few sensible defaults.
 COPY fpm/config/php-fpm.conf /usr/local/etc/
 COPY fpm/config/opcache.ini /usr/local/etc/php/conf.d/aa-opcache.ini
 RUN touch /usr/local/etc/php/conf.d/opcache.blacklist
-USER app:app
 
 WORKDIR /var/www/html
 
-# You can add scripts into here that will be owned by app and available in your PATH.
 ENV PATH /var/www/bin:$PATH
 
-CMD ["php-fpm", "-F"]
+CMD ["php-fpm", "-F", "-R"]
