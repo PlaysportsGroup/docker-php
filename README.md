@@ -8,12 +8,21 @@ These images are designed to be used in production, as well as in a staging envi
 
 Available tags:
 
-- playsportsgroup/php:7.1-fpm-alpine
-- playsportsgroup/php:7.1-cli-alpine
+ These images run as non-root user `app` by default:
 - playsportsgroup/php:7.2-fpm-alpine
 - playsportsgroup/php:7.2-cli-alpine
+- playsportsgroup/php:7.3-fpm-alpine
+- playsportsgroup/php:7.3-cli-alpine
+
+These images run as the root user by default:
+- playsportsgroup/php:7.2-fpm-alpine-root
+- playsportsgroup/php:7.2-cli-alpine-root
+- playsportsgroup/php:7.3-fpm-alpine-root
+- playsportsgroup/php:7.3-cli-alpine-root
 
 Deprecated tags (only alpine is being actively developed):
+- playsportsgroup/php:7.1-fpm-alpine
+- playsportsgroup/php:7.1-cli-alpine
 - playsportsgroup/php:7.1-fpm
 - playsportsgroup/php:7.1-cli
 - playsportsgroup/php:7.2-fpm
@@ -25,7 +34,7 @@ Deprecated tags (only alpine is being actively developed):
 
 ## How to add additional packages in your own dockerfile:
 
-You will need to reconfigure to use the `root` user, then switch back afterwards to the `app` user.
+If you're using a non-root image you will need to reconfigure to use the `root` user, then switch back afterwards to the `app` user.
 
     FROM playsportsgroup/php:7.2-fpm-alpine
 
@@ -35,7 +44,7 @@ You will need to reconfigure to use the `root` user, then switch back afterwards
 
 ## What PHP extensions come out of the box?
 
-- xdebug (but it's disabled, you'll need to enable it manually!)
+- xdebug (disabled, you'll need to enable it)
 - gd
 - intl
 - mbstring
@@ -48,20 +57,15 @@ You will need to reconfigure to use the `root` user, then switch back afterwards
 - mcrypt
 - pcntl
 - apcu
+- imagick
 
-My goal is to provide some commonly used extensions, and speed up build times by not needing to recompile PHP multiple times.
+Our goal is to provide some commonly used extensions, and speed up build times by not needing to recompile PHP multiple times.
 
 ## What else is there?
 
-Composer, of course!
+Composer is included
 
-## Why do you use an `app` user instead of root?
-
-TL;DR; Security.
-
-Read up on it here: [Processes in containers should not run as root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b)
-
-## So how can I use this!?
+## So how can I use these images?
 
     docker run playsportsgroup/php:7.2-fpm-alpine-v $(pwd):/var/www/html -p 9000:9000 --name myawesomephpapp
 
@@ -103,11 +107,11 @@ Want to run one of commands?
 
 opcache is enabled by default!
 
-For local development I recommend setting the `$PHP_OPCACHE_VALIDATE_TIMESTAMPS` environment variable to a value of `1`. For production, leave it as `0`.
+For local development we recommend setting the `$PHP_OPCACHE_VALIDATE_TIMESTAMPS` environment variable to a value of `1`. For production, leave it as `0`.
 
     docker run -e PHP_OPCACHE_VALIDATE_TIMESTAMPS=1 playsportsgroup/php:7.2-fpm sh
 
 
 ## Credit
 
-Lots of inspiration from the work on [https://github.com/meanbee/docker-magento2](meanbee/docker-magento2), and internal work I have completed at [Play Sports Network](https://www.playsportsnetwork.com).
+Lots of inspiration from the work on [https://github.com/meanbee/docker-magento2](meanbee/docker-magento2), and internal work completed at [Play Sports Network](https://www.playsportsnetwork.com).
