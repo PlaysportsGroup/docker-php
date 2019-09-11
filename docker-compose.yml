@@ -25,7 +25,7 @@ services:
         XDEBUG: 1
 
   php-73-cli:
-    image: ashsmith/php:7.3-cli-alpine-root${BRANCH}
+    image: playsportsgroup/php:7.3-cli-alpine-root${BRANCH}
     build:
       context: .
       args:
@@ -37,7 +37,7 @@ services:
   php-73-cli-xdebug:
     extends:
       service: php-73-cli
-    image: ashsmith/php:7.3-cli-xdebug-alpine-root${BRANCH}
+    image: playsportsgroup/php:7.3-cli-xdebug-alpine-root${BRANCH}
     build:
       args:
         XDEBUG: 1
