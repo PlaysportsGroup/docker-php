@@ -12,7 +12,7 @@ services:
       context: .
       args:
         VERSION: "7.2"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
         FLAVOUR: alpine
       dockerfile: cli/Dockerfile
 
@@ -30,7 +30,7 @@ services:
       context: .
       args:
         VERSION: "7.3"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
         FLAVOUR: alpine
       dockerfile: cli/Dockerfile
 
@@ -52,7 +52,7 @@ services:
       context: .
       args:
         VERSION: "7.2"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
         FLAVOUR: alpine
       dockerfile: fpm/Dockerfile
 
@@ -70,7 +70,7 @@ services:
       context: .
       args:
         VERSION: "7.3"
-        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl"
+        PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
         FLAVOUR: alpine
       dockerfile: fpm/Dockerfile
 
