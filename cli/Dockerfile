@@ -15,15 +15,15 @@ RUN apt-get update -y && apt-get install -y \
     libfreetype6-dev libjpeg62-turbo-dev \
     libpng-dev libicu-dev  libpng-dev \
     libmcrypt-dev libxslt-dev libzip-dev \
-    procps git-crypt && \
-    apt-get install -y $PHPIZE_DEPS && \
-  docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ && \
-  docker-php-ext-install -j$(nproc) ${PHP_EXTENSIONS} && \
-  pecl install apcu && docker-php-ext-enable apcu && \
-  if [ "$XDEBUG" = "1" ]; then pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi && \
-  apt-get remove -y $PHPIZE_DEPS && \
-  rm -rf /var/lib/apt/lists/* && \
-  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    procps git-crypt \
+  && apt-get install -y $PHPIZE_DEPS \
+  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+  && docker-php-ext-install -j$(nproc) ${PHP_EXTENSIONS} \
+  && pecl install apcu && docker-php-ext-enable apcu \
+  && if [ "$XDEBUG" = "1" ]; then pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi \
+  && apt-get remove -y $PHPIZE_DEPS \
+  && rm -rf /var/lib/apt/lists/* \
+  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY fpm/config/opcache.ini /usr/local/etc/php/conf.d/aa-opcache.ini
 

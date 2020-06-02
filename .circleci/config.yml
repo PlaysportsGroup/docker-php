@@ -50,5 +50,5 @@ workflows:
           matrix:
             parameters:
               image: ["cli", "fpm"]
-              php_version: ["7.3"]
+              php_version: ["7.3", "7.4"]
               distro: ["alpine", "debian"]
