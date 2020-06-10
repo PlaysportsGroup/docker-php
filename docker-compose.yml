@@ -2,82 +2,75 @@ version: "2.1"
 
 services:
 
-##################################
-# CLI Versions: 7.2, 7.3 #
-##################################
-
-  php-72-cli:
-    image: playsportsgroup/php:7.2-cli-alpine-root${BRANCH}
+###########
+# PHP CLI #
+###########
+  php-cli-debian:
+    image: playsportsgroup/php:${PHP_VERSION}-cli${BRANCH}
     build:
       context: .
       args:
-        VERSION: "7.2"
+        VERSION: ${PHP_VERSION}
         PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
-        FLAVOUR: alpine
       dockerfile: cli/Dockerfile
 
-  php-72-cli-xdebug:
+  php-cli-debian-xdebug:
     extends:
-      service: php-72-cli
-    image: playsportsgroup/php:7.2-cli-xdebug-alpine-root${BRANCH}
+      service: php-cli-debian
+    image: playsportsgroup/php:${PHP_VERSION}-cli-xdebug${BRANCH}
     build:
       args:
         XDEBUG: 1
 
-  php-73-cli:
-    image: playsportsgroup/php:7.3-cli-alpine-root${BRANCH}
+  php-cli-alpine:
+    image: playsportsgroup/php:${PHP_VERSION}-cli-alpine${BRANCH}
     build:
       context: .
       args:
-        VERSION: "7.3"
+        VERSION: ${PHP_VERSION}
         PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
-        FLAVOUR: alpine
-      dockerfile: cli/Dockerfile
+      dockerfile: cli/Dockerfile.alpine
 
-  php-73-cli-xdebug:
+  php-cli-alpine-xdebug:
     extends:
-      service: php-73-cli
-    image: playsportsgroup/php:7.3-cli-xdebug-alpine-root${BRANCH}
+      service: php-cli-alpine
+    image: playsportsgroup/php:${PHP_VERSION}-cli-xdebug-alpine${BRANCH}
     build:
       args:
         XDEBUG: 1
 
-##################################
-# FPM Versions: 7.2, 7.3 #
-##################################
-
-  php-72-fpm:
-    image: playsportsgroup/php:7.2-fpm-alpine-root${BRANCH}
+###########
+# PHP FPM #
+###########
+  php-fpm-debian:
+    image: playsportsgroup/php:${PHP_VERSION}-fpm${BRANCH}
     build:
       context: .
       args:
-        VERSION: "7.2"
+        VERSION: ${PHP_VERSION}
         PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
-        FLAVOUR: alpine
       dockerfile: fpm/Dockerfile
-
-  php-72-fpm-xdebug:
+  php-fpm-debian-xdebug:
     extends:
-      service: php-72-fpm
-    image: playsportsgroup/php:7.2-fpm-xdebug-alpine-root${BRANCH}
+      service: php-fpm-debian
+    image: playsportsgroup/php:${PHP_VERSION}-fpm-xdebug${BRANCH}
     build:
       args:
         XDEBUG: 1
 
-  php-73-fpm:
-    image: playsportsgroup/php:7.3-fpm-alpine-root${BRANCH}
+  php-fpm-alpine:
+    image: playsportsgroup/php:${PHP_VERSION}-fpm-alpine${BRANCH}
     build:
       context: .
       args:
-        VERSION: "7.3"
+        VERSION: ${PHP_VERSION}
         PHP_EXTENSIONS: "dom gd intl mbstring pdo_mysql xsl zip soap bcmath opcache pcntl sockets"
-        FLAVOUR: alpine
-      dockerfile: fpm/Dockerfile
+      dockerfile: fpm/Dockerfile.alpine
 
-  php-73-fpm-xdebug:
+  php-fpm-alpine-xdebug:
     extends:
-      service: php-73-fpm
-    image: playsportsgroup/php:7.3-fpm-xdebug-alpine-root${BRANCH}
+      service: php-fpm-alpine
+    image: playsportsgroup/php:${PHP_VERSION}-fpm-xdebug-alpine${BRANCH}
     build:
       args:
         XDEBUG: 1

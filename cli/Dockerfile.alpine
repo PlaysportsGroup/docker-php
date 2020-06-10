@@ -1,5 +1,5 @@
 ARG VERSION=latest
-FROM php:${VERSION}-cli
+FROM php:${VERSION}-cli-alpine
 ARG PHP_EXTENSIONS
 ARG XDEBUG
 
@@ -9,21 +9,22 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10"
 
 # Install dependencies
-RUN apt-get update -y && apt-get install -y \
-    vim git openssh-client zip wget ca-certificates \
-    default-mysql-client bash \
-    libfreetype6-dev libjpeg62-turbo-dev \
-    libpng-dev libicu-dev  libpng-dev \
-    libmcrypt-dev libxslt-dev libzip-dev \
-    procps git-crypt libonig-dev \
-  && apt-get install -y $PHPIZE_DEPS \
+RUN apk add --no-cache \
+    vim git openssh zip wget ca-certificates \
+    mysql-client bash \
+    freetype-dev libjpeg-turbo-dev \
+    libpng-dev icu-dev  libpng-dev \
+    libmcrypt-dev libxslt-dev libzip-dev procps oniguruma-dev \
+  && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-git-crypt/master/sgerrand.rsa.pub \
+  && wget https://github.com/sgerrand/alpine-pkg-git-crypt/releases/download/0.6.0-r1/git-crypt-0.6.0-r1.apk \
+  && apk add git-crypt-0.6.0-r1.apk \
+  && apk add --virtual build-deps $PHPIZE_DEPS \
   && if [ "$VERSION" = "7.3" ]; then docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/; fi \
   && if [ "$VERSION" = "7.4" ]; then docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/; fi \
-  && docker-php-ext-install -j$(nproc) ${PHP_EXTENSIONS} \
+  && docker-php-ext-install -j$(nproc) $PHP_EXTENSIONS \
   && pecl install apcu && docker-php-ext-enable apcu \
   && if [ "$XDEBUG" = "1" ]; then pecl install -o -f xdebug && docker-php-ext-enable xdebug; fi \
-  && apt-get remove -y $PHPIZE_DEPS \
-  && rm -rf /var/lib/apt/lists/* \
+  && apk del build-deps \
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY fpm/config/opcache.ini /usr/local/etc/php/conf.d/aa-opcache.ini

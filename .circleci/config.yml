@@ -4,7 +4,11 @@ commands:
   build_and_push:
     description: "Build & Push docker-compose images"
     parameters:
-      variant:
+      image:
+        type: string
+      php_version:
+        type: string
+      distro:
         type: string
     steps:
       - checkout:
@@ -15,42 +19,36 @@ commands:
           if [ "$CIRCLE_BRANCH" != "master" ]; then
             export BRANCH="-${CIRCLE_BRANCH}"
           fi;
-          echo "BRANCH=${BRANCH}" > .env
-          docker-compose build php-<< parameters.variant >> php-<< parameters.variant >>-xdebug
-          docker-compose push php-<< parameters.variant >> php-<< parameters.variant >>-xdebug
+          echo "BRANCH=${BRANCH}" >> .env
+          echo "PHP_VERSION=<< parameters.php_version >>" >> .env
+          export SERVICE=php-<< parameters.image >>-<< parameters.distro >>
+          docker-compose build $SERVICE $SERVICE-xdebug
+          docker-compose push $SERVICE $SERVICE-xdebug
 
 jobs:
-  build_72_fpm:
+  build:
     machine: true
     working_directory: ~/psg-docker-php/
+    parameters:
+      image:
+        type: string
+      php_version:
+        type: string
+      distro:
+        type: string
     steps:
       - build_and_push:
-          variant: '72-fpm'
-  build_72_cli:
-    machine: true
-    working_directory: ~/psg-docker-php/
-    steps:
-      - build_and_push:
-          variant: '72-cli'
-
-  build_73_fpm:
-    machine: true
-    working_directory: ~/psg-docker-php/
-    steps:
-      - build_and_push:
-          variant: '73-fpm'
-  build_73_cli:
-    machine: true
-    working_directory: ~/psg-docker-php/
-    steps:
-      - build_and_push:
-          variant: '73-cli'
+          image: << parameters.image >>
+          php_version: << parameters.php_version >>
+          distro: << parameters.distro >>
 
 workflows:
   version: 2
-  btd:
+  build:
     jobs:
-      - build_72_fpm
-      - build_72_cli
-      - build_73_fpm
-      - build_73_cli
+      - build:
+          matrix:
+            parameters:
+              image: ["cli", "fpm"]
+              php_version: ["7.3", "7.4"]
+              distro: ["alpine", "debian"]
